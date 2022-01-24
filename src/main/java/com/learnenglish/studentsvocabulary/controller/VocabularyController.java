@@ -19,4 +19,6 @@ public class VocabularyController {
         vocabularyService.saveVocabulary(vocabulary);
         return "New vocabulary is added";
     }
+
+
 }
