@@ -3,10 +3,9 @@ package com.learnenglish.studentsvocabulary.controller;
 import com.learnenglish.studentsvocabulary.model.Vocabulary;
 import com.learnenglish.studentsvocabulary.service.VocabularyService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/vocabulary")
@@ -20,5 +19,19 @@ public class VocabularyController {
         return "New vocabulary is added";
     }
 
+    @GetMapping("/getAll")
+    public List<Vocabulary> getAllVocabularies(){
+        return vocabularyService.getAllVocabularies();
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public void delete(@PathVariable int id){
+        vocabularyService.deleteVocabulary(id);
+    }
+
+    @GetMapping("/{id}")
+    public Vocabulary one(@PathVariable int id){
+        return vocabularyService.find(id);
+    }
 
 }

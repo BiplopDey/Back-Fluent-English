@@ -5,6 +5,9 @@ import com.learnenglish.studentsvocabulary.repository.VocabularyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Optional;
+
 @Service
 public class VocabularyServiceImpl implements VocabularyService{
     @Autowired
@@ -14,4 +17,23 @@ public class VocabularyServiceImpl implements VocabularyService{
     public Vocabulary saveVocabulary(Vocabulary vocabulary) {
         return vocabularyRepository.save(vocabulary);
     }
+
+    @Override
+    public List<Vocabulary> getAllVocabularies() {
+        return vocabularyRepository.findAll();
+    }
+
+    @Override
+    public void deleteVocabulary(int id) {
+        vocabularyRepository.deleteById(id);
+    }
+
+    @Override
+    public Vocabulary find(int id) {
+        var vocabulary = vocabularyRepository.findById(id);
+        if(vocabulary.isEmpty()) return new Vocabulary();
+        return vocabulary.get();
+    }
+
+
 }
