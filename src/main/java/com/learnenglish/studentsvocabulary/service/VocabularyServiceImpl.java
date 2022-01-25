@@ -31,8 +31,15 @@ public class VocabularyServiceImpl implements VocabularyService{
     @Override
     public Vocabulary find(int id) {
         var vocabulary = vocabularyRepository.findById(id);
-        if(vocabulary.isEmpty()) return new Vocabulary();
+        if(vocabulary.isEmpty()) return null;
         return vocabulary.get();
+    }
+
+    @Override
+    public Vocabulary update(Vocabulary vocabulary, int id) {
+        if(!vocabularyRepository.existsById(id)) return null;
+        vocabulary.setId(id);
+        return vocabularyRepository.save(vocabulary);
     }
 
 

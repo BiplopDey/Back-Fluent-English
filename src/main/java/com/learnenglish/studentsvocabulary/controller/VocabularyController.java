@@ -34,4 +34,9 @@ public class VocabularyController {
         return vocabularyService.find(id);
     }
 
+    @PutMapping("update/{id}")
+    public Vocabulary update(@RequestBody Vocabulary vocabulary, @PathVariable int id){
+        return vocabularyService.update(vocabulary, id);
+    }
+
 }
