@@ -8,23 +8,23 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/vocabulary")
+@RequestMapping("/vocabularies")
 public class VocabularyController {
     @Autowired
     private VocabularyService vocabularyService;
 
-    @PostMapping("/add")
+    @PostMapping("")
     public String add(@RequestBody Vocabulary vocabulary){
         vocabularyService.saveVocabulary(vocabulary);
         return "New vocabulary is added";
     }
 
-    @GetMapping("/getAll")
+    @GetMapping("")
     public List<Vocabulary> getAllVocabularies(){
         return vocabularyService.getAllVocabularies();
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public void delete(@PathVariable int id){
         vocabularyService.deleteVocabulary(id);
     }
@@ -34,7 +34,7 @@ public class VocabularyController {
         return vocabularyService.find(id);
     }
 
-    @PutMapping("update/{id}")
+    @PutMapping("/{id}")
     public Vocabulary update(@RequestBody Vocabulary vocabulary, @PathVariable int id){
         return vocabularyService.update(vocabulary, id);
     }
