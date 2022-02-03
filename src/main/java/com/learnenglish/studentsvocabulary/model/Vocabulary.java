@@ -16,6 +16,12 @@ public class Vocabulary {
     public Vocabulary() {
     }
 
+    public Vocabulary(int id, String name, String definition) {
+        this.id = id;
+        this.name = name;
+        this.definition = definition;
+    }
+
     public int getId() {
         return id;
     }

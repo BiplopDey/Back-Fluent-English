@@ -12,4 +12,6 @@ public interface VocabularyService {
     public Vocabulary find(int id);
 
     public Vocabulary update(Vocabulary vocabulary, int id);
+
+    public String greet();
 }

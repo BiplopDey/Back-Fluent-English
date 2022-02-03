@@ -13,13 +13,18 @@ public class VocabularyController {
     @Autowired
     private VocabularyService vocabularyService;
 
-    @PostMapping("")
+    @PostMapping
     public String add(@RequestBody Vocabulary vocabulary){
         vocabularyService.saveVocabulary(vocabulary);
         return "New vocabulary is added";
     }
 
-    @GetMapping("")
+    @GetMapping("/greeting")
+    public String greeting(){
+        return vocabularyService.greet();
+    }
+
+    @GetMapping
     public List<Vocabulary> getAllVocabularies(){
         return vocabularyService.getAllVocabularies();
     }
