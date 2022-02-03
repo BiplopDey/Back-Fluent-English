@@ -33,7 +33,7 @@ public class VocabularyServiceImpl implements VocabularyService{
     @Override
     public Vocabulary find(int id) {
         var vocabulary = vocabularyRepository.findById(id);
-        if(vocabulary.isEmpty()) return null;
+        if(!vocabulary.isPresent()) return null;
         return vocabulary.get();
     }
 
