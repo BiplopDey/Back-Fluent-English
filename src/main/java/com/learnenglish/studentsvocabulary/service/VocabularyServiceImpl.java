@@ -23,8 +23,6 @@ public class VocabularyServiceImpl implements VocabularyService{
         return vocabularyRepository.findAll();
     }
 
-
-
     @Override
     public void deleteVocabulary(int id) {
         vocabularyRepository.deleteById(id);

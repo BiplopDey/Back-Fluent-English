@@ -14,9 +14,8 @@ public class VocabularyController {
     private VocabularyService vocabularyService;
 
     @PostMapping
-    public String add(@RequestBody Vocabulary vocabulary){
-        vocabularyService.saveVocabulary(vocabulary);
-        return "New vocabulary is added";
+    public Vocabulary add(@RequestBody Vocabulary vocabulary){
+        return vocabularyService.saveVocabulary(vocabulary);
     }
 
     @GetMapping("/greeting")

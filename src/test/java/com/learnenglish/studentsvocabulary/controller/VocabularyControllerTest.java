@@ -1,5 +1,6 @@
 package com.learnenglish.studentsvocabulary.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.learnenglish.studentsvocabulary.model.Vocabulary;
 import com.learnenglish.studentsvocabulary.repository.VocabularyRepository;
 import com.learnenglish.studentsvocabulary.service.VocabularyService;
@@ -13,15 +14,14 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultMatcher;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
@@ -36,6 +36,9 @@ class VocabularyControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
+    @Autowired
+    ObjectMapper mapper;
+
     @MockBean
     private VocabularyService service;
 
@@ -46,15 +49,15 @@ class VocabularyControllerTest {
                 .andExpect(content().string(containsString("Hello")));
     }
 
-    Vocabulary RECORD_1 = new Vocabulary(1, "Rayven Yor","Cebu Philippines");
-    Vocabulary RECORD_2 = new Vocabulary(2, "David Landup", "New York USA");
-    Vocabulary RECORD_3 = new Vocabulary(3, "Jane Doe", "New York USA");
+    final Vocabulary RECORD_1 = new Vocabulary(1, "Rayven Yor","Cebu Philippines");
+    final Vocabulary RECORD_2 = new Vocabulary(2, "David Landup", "New York USA");
+    final Vocabulary RECORD_3 = new Vocabulary(3, "Jane Doe", "New York USA");
 
     @MockBean
     private VocabularyRepository vocabularyRepository;
 
     @Test
-    void getAll_success() throws Exception{
+    void testMockito() throws Exception{
         List<Vocabulary> records = new ArrayList<>(Arrays.asList(RECORD_1, RECORD_2, RECORD_3));
         when(vocabularyRepository.findAll()).thenReturn(records);
         assertEquals(vocabularyRepository.findAll(), records);
@@ -63,12 +66,78 @@ class VocabularyControllerTest {
     @Test
     void getAllViaUrl() throws Exception{
         List<Vocabulary> records = new ArrayList<>(Arrays.asList(RECORD_1, RECORD_2, RECORD_3));
-        Mockito.when(service.getAllVocabularies()).thenReturn(records);
-        mockMvc.perform(MockMvcRequestBuilders
-                        .get("/vocabularies")
+        when(service.getAllVocabularies()).thenReturn(records);
+        mockMvc.perform(get("/vocabularies")
                         .contentType(MediaType.APPLICATION_JSON))
                         .andExpect(status().isOk())
                         .andExpect(jsonPath("$", hasSize(3)))
                         .andExpect(jsonPath("$[2].name", is("Jane Doe")));
+    }
+
+    @Test
+    void getOne() throws Exception{
+        when(service.find(RECORD_1.getId())).thenReturn(RECORD_1);
+        mockMvc.perform(get("/vocabularies/1")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", notNullValue()))
+                .andExpect(jsonPath("$.name", is("Rayven Yor")));
+    }
+
+    @Test
+    void createOne() throws Exception{
+        when(service.find(RECORD_1.getId())).thenReturn(RECORD_1);
+        mockMvc.perform(get("/vocabularies/1")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", notNullValue()))
+                .andExpect(jsonPath("$.name", is("Rayven Yor")));
+    }
+
+
+
+    /*
+    @Test
+    void createdOne() throws Exception{
+        Vocabulary vocab = new Vocabulary();
+        vocab.setName("john");
+        vocab.setDefinition("blala");
+
+        when(service.saveVocabulary(vocab)).thenReturn(vocab);
+        MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.post("/vocabularies")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content("{\"name\":\"john\",  \"definition\":\"mca\"}");
+
+        mockMvc.perform(mockRequest)
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", notNullValue()))
+                .andExpect(jsonPath("$.name", is("john")));
+    }
+    */
+
+    @Test
+    public void updateOne() throws Exception{
+        when(service.update(RECORD_1, RECORD_1.getId())).thenReturn(RECORD_1);
+
+        MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.put("/vocabularies/"+RECORD_1.getId())
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(this.mapper.writeValueAsString(RECORD_1));
+
+        mockMvc.perform(mockRequest)
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", notNullValue()))
+                .andExpect(jsonPath("$.name", is(RECORD_1.getName())));
+
+    }
+
+    @Test
+    public void deletePatientById_success() throws Exception {
+        //when(service.deleteVocabulary(RECORD_2.getId())).thenReturn(null);
+        mockMvc.perform(MockMvcRequestBuilders
+                        .delete("/vocabularies/"+RECORD_1.getId())
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
     }
 }
