@@ -51,4 +51,24 @@ public class UserController {
         return addedVocabulary;
     }
 
+    @PutMapping("/{userId}/vocabularies/{vocabId}")
+    public Vocabulary updateVocabulary(@PathVariable("userId") int userId,
+                                       @PathVariable("vocabId") int vocabId,
+                                       @RequestBody Vocabulary vocabulary){
+
+        var userToFind = userRepository.findById(userId);
+        if(!userToFind.isPresent()) return null;
+        var user = userToFind.get();
+
+        var addedVocabulary = vocabularyService.update(vocabulary, vocabId);
+
+        var newVocab = user.getVocabularies();
+        newVocab.add(addedVocabulary);
+        user.setVocabularies(newVocab);
+        userRepository.save(user);
+        return addedVocabulary;
+    }
+
+
+
 }
