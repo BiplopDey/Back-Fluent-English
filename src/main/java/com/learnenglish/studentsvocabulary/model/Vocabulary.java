@@ -8,13 +8,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-//@Builder
 public class Vocabulary {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
     private String definition;
+    private boolean isPhrasalVerb = false;
 
     public Vocabulary() {
     }
@@ -23,6 +23,14 @@ public class Vocabulary {
         this.id = id;
         this.name = name;
         this.definition = definition;
+    }
+
+    public boolean isPhrasalVerb() {
+        return isPhrasalVerb;
+    }
+
+    public void setPhrasalVerb(boolean phrasalVerb) {
+        isPhrasalVerb = phrasalVerb;
     }
 
     public int getId() {

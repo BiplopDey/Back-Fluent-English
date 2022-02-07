@@ -94,8 +94,6 @@ class VocabularyControllerTest {
                 .andExpect(jsonPath("$.name", is("Rayven Yor")));
     }
 
-
-
     /*
     @Test
     void createdOne() throws Exception{
