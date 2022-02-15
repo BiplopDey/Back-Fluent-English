@@ -1,11 +1,11 @@
 package com.learnenglish.studentsvocabulary.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Vocabulary {
@@ -15,6 +15,18 @@ public class Vocabulary {
     private String name;
     private String definition;
     private boolean isPhrasalVerb = false;
+
+    @ManyToMany(mappedBy = "vocabularies")
+    @JsonIgnore
+    private Set<User> students = new HashSet<>();
+
+    public Set<User> getStudents() {
+        return students;
+    }
+
+    public void setStudents(Set<User> students) {
+        this.students = students;
+    }
 
     public Vocabulary() {
     }

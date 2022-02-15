@@ -67,7 +67,7 @@ class VocabularyControllerTest {
     void getAllViaUrl() throws Exception{
         List<Vocabulary> records = new ArrayList<>(Arrays.asList(RECORD_1, RECORD_2, RECORD_3));
         when(service.getAllVocabularies()).thenReturn(records);
-        mockMvc.perform(get("/vocabularies")
+        mockMvc.perform(MockMvcRequestBuilders.get("/vocabularies")
                         .contentType(MediaType.APPLICATION_JSON))
                         .andExpect(status().isOk())
                         .andExpect(jsonPath("$", hasSize(3)))

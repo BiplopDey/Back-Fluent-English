@@ -14,8 +14,21 @@ public class User {
     public User() {
     }
 
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.ALL})
+    @JoinTable(name = "USER_VOCABULARY",
+            joinColumns = {@JoinColumn(name = "USER_ID")},
+            inverseJoinColumns = {@JoinColumn(name = "VOCABULARY_ID")})
     Set<Vocabulary> vocabularies = new HashSet<>();
+
+    public void addVocabulary(Vocabulary vocabulary){
+        vocabularies.add(vocabulary);
+        vocabulary.getStudents().add(this);
+    }
+
+    public void removeVocabulary(Vocabulary vocabulary){
+        vocabularies.remove(vocabulary);
+        vocabulary.getStudents().remove(this);
+    }
 
     public Set<Vocabulary> getVocabularies() {
         return vocabularies;

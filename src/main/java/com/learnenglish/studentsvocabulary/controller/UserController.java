@@ -70,5 +70,25 @@ public class UserController {
     }
 
 
+    @DeleteMapping("/{userId}/vocabularies/{vocabId}")
+    public void delete(@PathVariable("userId") int userId,
+                       @PathVariable("vocabId") int vocabId){
+
+        var userToFind = userRepository.findById(userId);
+        if(!userToFind.isPresent()) return;
+        var user = userToFind.get();
+        var deletedVocab = vocabularyService.find(vocabId);
+
+        user.removeVocabulary(deletedVocab);
+
+        //vocabularyService.deleteVocabulary(vocabId);
+
+        /*
+        var newVocab = user.getVocabularies();
+        newVocab.remove(deletedVocab);
+        user.setVocabularies(newVocab);
+        userRepository.save(user);
+         */
+    }
 
 }
