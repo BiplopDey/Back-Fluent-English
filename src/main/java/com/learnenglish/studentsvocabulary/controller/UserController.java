@@ -25,15 +25,13 @@ public class UserController {
     @GetMapping("/{id}")
     public User one(@PathVariable int id){
         var user = userRepository.findById(id);
-        if(!user.isPresent()) return null;
-        return user.get();
+        return user.isPresent() ? user.get() : null;
     }
 
     @GetMapping("/{id}/vocabularies")
     public Set<Vocabulary> vocabularies(@PathVariable int id){
         var userToFind = userRepository.findById(id);
-        if(!userToFind.isPresent()) return null;
-        return userToFind.get().getVocabularies();
+        return userToFind.isPresent() ? userToFind.get().getVocabularies() : null;
     }
 
     @PostMapping("/{id}/vocabularies")
@@ -80,15 +78,7 @@ public class UserController {
         var deletedVocab = vocabularyService.find(vocabId);
 
         user.removeVocabulary(deletedVocab);
-
-        //vocabularyService.deleteVocabulary(vocabId);
-
-        /*
-        var newVocab = user.getVocabularies();
-        newVocab.remove(deletedVocab);
-        user.setVocabularies(newVocab);
         userRepository.save(user);
-         */
     }
 
 }
