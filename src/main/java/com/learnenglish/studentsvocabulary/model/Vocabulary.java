@@ -1,35 +1,28 @@
 package com.learnenglish.studentsvocabulary.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Builder;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Vocabulary {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
     private String definition;
-    private boolean isPhrasalVerb = false;
-
+    private boolean favorite = false;
+    private boolean phrasalVerb = false;
     @ManyToMany(mappedBy = "vocabularies")
     @JsonIgnore
     private Set<User> students = new HashSet<>();
-
-    public Set<User> getStudents() {
-        return students;
-    }
-
-    public void setStudents(Set<User> students) {
-        this.students = students;
-    }
-
-    public Vocabulary() {
-    }
 
     public Vocabulary(int id, String name, String definition) {
         this.id = id;
@@ -37,35 +30,15 @@ public class Vocabulary {
         this.definition = definition;
     }
 
-    public boolean isPhrasalVerb() {
-        return isPhrasalVerb;
-    }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
 
-    public void setPhrasalVerb(boolean phrasalVerb) {
-        isPhrasalVerb = phrasalVerb;
-    }
+        if (!(o instanceof Vocabulary))
+            return false;
 
-    public int getId() {
-        return id;
-    }
+        var other = (Vocabulary) o;
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDefinition() {
-        return definition;
-    }
-
-    public void setDefinition(String definition) {
-        this.definition = definition;
+        return id == other.getId();
     }
 }

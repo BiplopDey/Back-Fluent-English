@@ -29,7 +29,7 @@ class UserServiceImplUnitTest {
 
     @Test
     void getUserById() {
-        var user = new User(1,"Foo");
+        var user = new User(1,"foo");
         when(userRepository.findById(1)).thenReturn(Optional.of(user));
 
         var newUser = userService.getUserById(1);

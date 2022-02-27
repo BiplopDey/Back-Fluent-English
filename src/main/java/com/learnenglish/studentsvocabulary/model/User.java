@@ -1,8 +1,6 @@
 package com.learnenglish.studentsvocabulary.model;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -11,7 +9,7 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
-@EqualsAndHashCode
+@NoArgsConstructor
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,9 +27,6 @@ public class User {
         this.name = name;
     }
 
-    public User() {
-    }
-
     public void addVocabulary(Vocabulary vocabulary){
         vocabularies.add(vocabulary);
         vocabulary.getStudents().add(this);
@@ -40,5 +35,17 @@ public class User {
     public void removeVocabulary(Vocabulary vocabulary){
         vocabularies.remove(vocabulary);
         vocabulary.getStudents().remove(this);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+
+        if (!(o instanceof User))
+            return false;
+
+        var other = (User) o;
+
+        return id == other.getId();
     }
 }
