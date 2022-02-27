@@ -67,7 +67,6 @@ public class UserController {
         return addedVocabulary;
     }
 
-
     @DeleteMapping("/{userId}/vocabularies/{vocabId}")
     public void delete(@PathVariable("userId") int userId,
                        @PathVariable("vocabId") int vocabId){

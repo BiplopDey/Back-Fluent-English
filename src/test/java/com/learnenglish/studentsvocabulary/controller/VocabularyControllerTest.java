@@ -84,16 +84,6 @@ class VocabularyControllerTest {
                 .andExpect(jsonPath("$.name", is("Rayven Yor")));
     }
 
-    @Test
-    void createOne() throws Exception{
-        when(service.find(RECORD_1.getId())).thenReturn(RECORD_1);
-        mockMvc.perform(get("/vocabularies/1")
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$", notNullValue()))
-                .andExpect(jsonPath("$.name", is("Rayven Yor")));
-    }
-
     /*
     @Test
     void createdOne() throws Exception{
