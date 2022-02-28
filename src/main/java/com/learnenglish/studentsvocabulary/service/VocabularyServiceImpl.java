@@ -8,37 +8,41 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-@Service
+
 public class VocabularyServiceImpl implements VocabularyService{
-    @Autowired
-    private VocabularyRepository vocabularyRepository;
+    private final VocabularyRepository vocabularyRepository;
+
+    public VocabularyServiceImpl(final VocabularyRepository vocabularyRepository) {
+        this.vocabularyRepository = vocabularyRepository;
+    }
 
     @Override
-    public Vocabulary saveVocabulary(Vocabulary vocabulary) {
+    public Vocabulary create(Vocabulary vocabulary) {
         return vocabularyRepository.save(vocabulary);
     }
 
     @Override
-    public List<Vocabulary> getAllVocabularies() {
+    public List<Vocabulary> all() {
         return vocabularyRepository.findAll();
     }
 
     @Override
-    public void deleteVocabulary(int id) {
+    public void delete(int id) {
         vocabularyRepository.deleteById(id);
     }
 
     @Override
     public Vocabulary find(int id) {
-        var vocabulary = vocabularyRepository.findById(id);
-        if(!vocabulary.isPresent()) return null;
-        return vocabulary.get();
+        return vocabularyRepository.findById(id)
+                .orElseThrow(()->new RuntimeException("Vocabulary not found"));
     }
 
     @Override
     public Vocabulary update(Vocabulary vocabulary, int id) {
-        if(!vocabularyRepository.existsById(id)) return null;
-        vocabulary.setId(id);
+        var vocabToUpdate = find(id);
+
+        vocabulary.setId(vocabToUpdate.getId());
+
         return vocabularyRepository.save(vocabulary);
     }
 

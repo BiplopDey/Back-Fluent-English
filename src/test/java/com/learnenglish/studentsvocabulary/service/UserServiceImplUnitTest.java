@@ -6,10 +6,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.platform.commons.logging.Logger;
 import org.junit.platform.commons.logging.LoggerFactory;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 
 import java.util.Optional;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -32,7 +28,7 @@ class UserServiceImplUnitTest {
         var user = new User(1,"foo");
         when(userRepository.findById(1)).thenReturn(Optional.of(user));
 
-        var newUser = userService.getUserById(1);
+        var newUser = userService.find(1);
 
         assertThat(user).isEqualTo(newUser);
         verify(userRepository).findById(1);

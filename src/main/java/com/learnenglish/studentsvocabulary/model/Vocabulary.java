@@ -11,7 +11,6 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 public class Vocabulary {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

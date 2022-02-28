@@ -40,7 +40,7 @@ public class UserController {
         if(!userToFind.isPresent()) return null;
         var user = userToFind.get();
 
-        var addedVocabulary = vocabularyService.saveVocabulary(vocabulary);
+        var addedVocabulary = vocabularyService.create(vocabulary);
 
         var newVocab = user.getVocabularies();
         newVocab.add(addedVocabulary);

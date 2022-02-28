@@ -15,7 +15,7 @@ public class VocabularyController {
 
     @PostMapping
     public Vocabulary add(@RequestBody Vocabulary vocabulary){
-        return vocabularyService.saveVocabulary(vocabulary);
+        return vocabularyService.create(vocabulary);
     }
 
     @GetMapping("/greeting")
@@ -25,12 +25,12 @@ public class VocabularyController {
 
     @GetMapping
     public List<Vocabulary> getAllVocabularies(){
-        return vocabularyService.getAllVocabularies();
+        return vocabularyService.all();
     }
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable int id){
-        vocabularyService.deleteVocabulary(id);
+        vocabularyService.delete(id);
     }
 
     @GetMapping("/{id}")
