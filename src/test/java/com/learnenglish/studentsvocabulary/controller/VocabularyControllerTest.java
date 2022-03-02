@@ -42,25 +42,15 @@ class VocabularyControllerTest {
     @MockBean
     private VocabularyService service;
 
+    final Vocabulary RECORD_1 = new Vocabulary(1, "Rayven Yor","Cebu Philippines");
+    final Vocabulary RECORD_2 = new Vocabulary(2, "David Landup", "New York USA");
+    final Vocabulary RECORD_3 = new Vocabulary(3, "Jane Doe", "New York USA");
+
     @Test
     void shouldSayHello() throws Exception{
         when(service.greet()).thenReturn("Hello");
         this.mockMvc.perform(get("/vocabularies/greeting")).andDo(print()).andExpect(status().isOk())
                 .andExpect(content().string(containsString("Hello")));
-    }
-
-    final Vocabulary RECORD_1 = new Vocabulary(1, "Rayven Yor","Cebu Philippines");
-    final Vocabulary RECORD_2 = new Vocabulary(2, "David Landup", "New York USA");
-    final Vocabulary RECORD_3 = new Vocabulary(3, "Jane Doe", "New York USA");
-
-    @MockBean
-    private VocabularyRepository vocabularyRepository;
-
-    @Test
-    void testMockito() throws Exception{
-        List<Vocabulary> records = new ArrayList<>(Arrays.asList(RECORD_1, RECORD_2, RECORD_3));
-        when(vocabularyRepository.findAll()).thenReturn(records);
-        assertEquals(vocabularyRepository.findAll(), records);
     }
 
     @Test

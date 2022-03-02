@@ -42,5 +42,4 @@ public class VocabularyController {
     public Vocabulary update(@RequestBody Vocabulary vocabulary, @PathVariable int id){
         return vocabularyService.update(vocabulary, id);
     }
-
 }

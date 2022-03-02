@@ -25,4 +25,16 @@ public class UserServiceImpl implements UserService {
         user.addVocabulary(vocabulary);
         userRepository.save(user);
     }
+
+    @Override
+    public void detachVocabulary(int id, Vocabulary vocabulary) {
+        var user = find(id);
+        user.removeVocabulary(vocabulary);
+        userRepository.save(user);
+    }
+
+    @Override
+    public User create(User user) {
+        return userRepository.save(user);
+    }
 }

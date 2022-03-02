@@ -40,12 +40,9 @@ public class User {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-
         if (!(o instanceof User))
             return false;
-
         var other = (User) o;
-
         return id == other.getId();
     }
 }
