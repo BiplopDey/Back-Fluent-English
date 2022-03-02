@@ -1,6 +1,7 @@
 package com.learnenglish.studentsvocabulary.service;
 
 import com.learnenglish.studentsvocabulary.model.User;
+import com.learnenglish.studentsvocabulary.model.Vocabulary;
 import com.learnenglish.studentsvocabulary.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,7 +26,7 @@ class UserServiceImplUnitTest {
 
     @Test
     void getUserById() {
-        var user = new User(1,"foo");
+        User user = new User(1,"foo");
         when(userRepository.findById(1)).thenReturn(Optional.of(user));
 
         var newUser = userService.find(1);
@@ -33,6 +34,18 @@ class UserServiceImplUnitTest {
         assertThat(user).isEqualTo(newUser);
         verify(userRepository).findById(1);
        // LOG.info(() -> user.getId()+Double.toString(Math.random()));
+    }
+
+    @Test
+    void canAddVocabularies(){
+        var vocabulary = new Vocabulary(1,"Hola", "Saludo");
+        var user = spy(new User(1,"Foo"));
+        when(userRepository.findById(1)).thenReturn(Optional.of(user));
+
+        userService.addVocabulary(user.getId(),vocabulary);
+
+        verify(user).addVocabulary(vocabulary);
+        verify(userRepository).save(user);
     }
 
 }
