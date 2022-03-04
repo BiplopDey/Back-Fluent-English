@@ -32,12 +32,9 @@ public class Vocabulary {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-
         if (!(o instanceof Vocabulary))
             return false;
-
         var other = (Vocabulary) o;
-
         return id == other.getId();
     }
 }
