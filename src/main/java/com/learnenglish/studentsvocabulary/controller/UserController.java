@@ -2,11 +2,14 @@ package com.learnenglish.studentsvocabulary.controller;
 
 import com.learnenglish.studentsvocabulary.model.User;
 import com.learnenglish.studentsvocabulary.model.Vocabulary;
+import com.learnenglish.studentsvocabulary.service.TokenService;
 import com.learnenglish.studentsvocabulary.service.UserService;
 import com.learnenglish.studentsvocabulary.service.VocabularyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 @RestController
@@ -14,11 +17,30 @@ import java.util.Set;
 public class UserController {
     private final UserService userService;
     private final VocabularyService vocabularyService;
+    private final TokenService tokenService;
 
     @Autowired
-    public UserController(UserService userService, VocabularyService vocabularyService) {
+    public UserController(UserService userService, VocabularyService vocabularyService, TokenService tokenService) {
         this.userService = userService;
         this.vocabularyService = vocabularyService;
+        this.tokenService = tokenService;
+    }
+
+    @GetMapping("/token")
+    public Map<String, String> readAndReturnToken(
+            @RequestHeader(value="Authorization") String bearToken){
+        HashMap<String, String> map = new HashMap<>();
+        map.put("accessToken",bearToken.split("\\s+")[1]);
+        return map;
+    }
+
+    @PostMapping("/register")
+    public Map<String, String> registerUser(@RequestBody User user){
+        userService.create(user);
+        HashMap<String, String> map = new HashMap<>();
+        String token=tokenService.generate(user);
+        map.put("accessToken", token);
+        return map;
     }
 
     @PostMapping

@@ -1,11 +1,9 @@
 package com.learnenglish.studentsvocabulary.configuration;
 
+import antlr.Token;
 import com.learnenglish.studentsvocabulary.repository.UserRepository;
 import com.learnenglish.studentsvocabulary.repository.VocabularyRepository;
-import com.learnenglish.studentsvocabulary.service.UserService;
-import com.learnenglish.studentsvocabulary.service.UserServiceImpl;
-import com.learnenglish.studentsvocabulary.service.VocabularyService;
-import com.learnenglish.studentsvocabulary.service.VocabularyServiceImpl;
+import com.learnenglish.studentsvocabulary.service.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -19,5 +17,10 @@ public class ServiceConfiguration {
     @Bean
     public VocabularyService getVocabularyService(VocabularyRepository vocabularyRepository){
         return new VocabularyServiceImpl(vocabularyRepository);
+    }
+
+    @Bean
+    public TokenService getTokenService(){
+        return new BearerTokenService();
     }
 }

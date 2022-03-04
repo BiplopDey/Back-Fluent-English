@@ -1,6 +1,8 @@
 package com.learnenglish.studentsvocabulary.controller;
 
 import com.learnenglish.studentsvocabulary.model.User;
+import com.learnenglish.studentsvocabulary.service.BearerTokenService;
+import com.learnenglish.studentsvocabulary.service.TokenService;
 import com.learnenglish.studentsvocabulary.service.UserService;
 import com.learnenglish.studentsvocabulary.service.VocabularyService;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,7 +21,7 @@ class UserControllerUnitTest {
     void setUp(){
         userService = mock(UserService.class);
         vocabularyService = mock(VocabularyService.class);
-        userController = new UserController(userService,vocabularyService);
+        userController = new UserController(userService, vocabularyService, new BearerTokenService());
     }
 
     @Test
