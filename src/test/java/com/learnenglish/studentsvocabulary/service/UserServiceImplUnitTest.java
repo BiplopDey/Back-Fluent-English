@@ -42,7 +42,7 @@ class UserServiceImplUnitTest {
         var user = spy(new User(1,"Foo"));
         when(userRepository.findById(1)).thenReturn(Optional.of(user));
 
-        userService.addVocabulary(user.getId(),vocabulary);
+        userService.addVocabulary(user.getId(), vocabulary);
 
         verify(user).addVocabulary(vocabulary);
         verify(userRepository).save(user);

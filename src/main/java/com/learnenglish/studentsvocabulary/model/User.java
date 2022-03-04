@@ -15,7 +15,6 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
-
     @ManyToMany(cascade = {CascadeType.ALL})
     @JoinTable(name = "USER_VOCABULARY",
             joinColumns = {@JoinColumn(name = "USER_ID")},
