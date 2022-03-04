@@ -2,7 +2,7 @@ package com.learnenglish.studentsvocabulary.controller;
 
 import com.learnenglish.studentsvocabulary.model.User;
 import com.learnenglish.studentsvocabulary.model.Vocabulary;
-import com.learnenglish.studentsvocabulary.repository.UserRepository;
+import com.learnenglish.studentsvocabulary.service.UserService;
 import com.learnenglish.studentsvocabulary.service.VocabularyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -12,42 +12,39 @@ import java.util.Set;
 @RestController
 @RequestMapping("/users")
 public class UserController {
+    private final UserService userService;
+    private final VocabularyService vocabularyService;
+
     @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private VocabularyService vocabularyService;
+    public UserController(UserService userService, VocabularyService vocabularyService) {
+        this.userService = userService;
+        this.vocabularyService = vocabularyService;
+    }
 
     @PostMapping
-    public User add(@RequestBody User user){
-        return userRepository.save(user);
+    public User createUser(@RequestBody User user){
+        return userService.create(user);
     }
 
     @GetMapping("/{id}")
-    public User one(@PathVariable int id){
-        var user = userRepository.findById(id);
-        if(!user.isPresent()) return null;
-        return user.get();
+    public User getUser(@PathVariable int id){
+        return userService.find(id);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteUser(@PathVariable int id){
+        userService.delete(id);
     }
 
     @GetMapping("/{id}/vocabularies")
     public Set<Vocabulary> vocabularies(@PathVariable int id){
-        var userToFind = userRepository.findById(id);
-        if(!userToFind.isPresent()) return null;
-        return userToFind.get().getVocabularies();
+        return userService.find(id).getVocabularies();
     }
 
     @PostMapping("/{id}/vocabularies")
     public Vocabulary addVocabulary(@PathVariable int id, @RequestBody Vocabulary vocabulary){
-        var userToFind = userRepository.findById(id);
-        if(!userToFind.isPresent()) return null;
-        var user = userToFind.get();
-
-        var addedVocabulary = vocabularyService.saveVocabulary(vocabulary);
-
-        var newVocab = user.getVocabularies();
-        newVocab.add(addedVocabulary);
-        user.setVocabularies(newVocab);
-        userRepository.save(user);
+        var addedVocabulary = vocabularyService.create(vocabulary);
+        userService.addVocabulary(id,addedVocabulary);
         return addedVocabulary;
     }
 
@@ -55,20 +52,14 @@ public class UserController {
     public Vocabulary updateVocabulary(@PathVariable("userId") int userId,
                                        @PathVariable("vocabId") int vocabId,
                                        @RequestBody Vocabulary vocabulary){
-
-        var userToFind = userRepository.findById(userId);
-        if(!userToFind.isPresent()) return null;
-        var user = userToFind.get();
-
-        var addedVocabulary = vocabularyService.update(vocabulary, vocabId);
-
-        var newVocab = user.getVocabularies();
-        newVocab.add(addedVocabulary);
-        user.setVocabularies(newVocab);
-        userRepository.save(user);
-        return addedVocabulary;
+        var updatedVocab = vocabularyService.update(vocabulary, vocabId);
+        return updatedVocab;
     }
 
-
-
+    @DeleteMapping("/{userId}/vocabularies/{vocabId}")
+    public void detach(@PathVariable("userId") int userId,
+                        @PathVariable("vocabId") int vocabId){
+        var vocabToDetach = vocabularyService.find(vocabId);
+        userService.detachVocabulary(userId, vocabToDetach);
+    }
 }
