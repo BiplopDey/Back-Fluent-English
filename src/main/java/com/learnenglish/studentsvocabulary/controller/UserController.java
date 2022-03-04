@@ -31,6 +31,11 @@ public class UserController {
         return userService.find(id);
     }
 
+    @DeleteMapping("/{id}")
+    public void deleteUser(@PathVariable int id){
+        userService.delete(id);
+    }
+
     @GetMapping("/{id}/vocabularies")
     public Set<Vocabulary> vocabularies(@PathVariable int id){
         return userService.find(id).getVocabularies();

@@ -20,6 +20,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void delete(int id) {
+        userRepository.deleteById(id);
+    }
+
+    @Override
     public void addVocabulary(int id, Vocabulary vocabulary) {
         var user = find(id);
         user.addVocabulary(vocabulary);
