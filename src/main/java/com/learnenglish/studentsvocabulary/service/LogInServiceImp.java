@@ -12,7 +12,8 @@ public class LogInServiceImp implements LogInService{
 
     @Override
     public boolean isLogedIn(int id, String bearerToken) {
-        return tokenService.exists(parseToken(bearerToken));
+        String token = parseToken(bearerToken);
+        return tokenService.exists(token) ? tokenService.getUser(token).getId() == id : false;
     }
 
     @Override

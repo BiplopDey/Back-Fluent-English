@@ -6,6 +6,7 @@ import com.learnenglish.studentsvocabulary.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Optional;
+import java.util.Set;
 
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
@@ -41,5 +42,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public User create(User user) {
         return userRepository.save(user);
+    }
+
+    @Override
+    public Set<Vocabulary> getVocabularies(int id) {
+        return find(id).getVocabularies();
     }
 }

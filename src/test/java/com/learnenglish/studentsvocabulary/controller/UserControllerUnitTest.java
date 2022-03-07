@@ -18,7 +18,7 @@ class UserControllerUnitTest {
     void setUp(){
         userService = mock(UserService.class);
         vocabularyService = mock(VocabularyService.class);
-        userController = new UserController(userService, vocabularyService, new BearerTokenService(), logInService);
+        userController = new UserController(userService, vocabularyService, logInService);
     }
 
     @Test
