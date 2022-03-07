@@ -10,7 +10,7 @@ public class BearerTokenService implements TokenService{
 
     @Override
     public String generate(User user) {
-        String randomToken = getAlphaNumericString(10);
+        String randomToken = getAlphaNumericString(20);
         tokens.put(randomToken, user);
         return randomToken;
     }

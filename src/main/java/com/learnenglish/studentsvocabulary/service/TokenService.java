@@ -7,3 +7,4 @@ public interface TokenService {
     boolean exists(String token);
     User getUser(String token);
 }
+

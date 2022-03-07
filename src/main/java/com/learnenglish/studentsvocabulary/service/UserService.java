@@ -9,6 +9,4 @@ public interface UserService {
     void addVocabulary(int id, Vocabulary vocabulary);
     void detachVocabulary(int id, Vocabulary vocabulary);
     User create(User user);
-
-
 }

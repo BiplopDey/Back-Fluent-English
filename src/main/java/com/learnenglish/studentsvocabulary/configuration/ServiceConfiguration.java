@@ -23,4 +23,9 @@ public class ServiceConfiguration {
     public TokenService getTokenService(){
         return new BearerTokenService();
     }
+
+    @Bean
+    public LogInService getLogInService(TokenService tokenService){
+        return new LogInServiceImp(tokenService);
+    }
 }
