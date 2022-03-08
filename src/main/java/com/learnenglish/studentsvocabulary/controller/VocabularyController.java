@@ -5,10 +5,13 @@ import com.learnenglish.studentsvocabulary.service.VocabularyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @RestController
 @RequestMapping("/vocabularies")
@@ -34,13 +37,14 @@ public class VocabularyController {
     @GetMapping
     public List<Vocabulary> getAllVocabularies(@RequestParam Map<String,String> params){
         List<Vocabulary> vocabularyList = vocabularyService.all();
-        if(params.containsKey("favorite")){
-            if(params.get("favorite").equals("true")){
-                vocabularyList = vocabularyList.stream().filter(vocabulary -> vocabulary.isFavorite()).collect(Collectors.toList());
-            }
-        }
+        List<Predicate<Vocabulary>> vocabularyPredicateList = new ArrayList<>();
+        params.forEach((key,value)->{
+            if(key.equals("favorite") && value.equals("true")) vocabularyPredicateList.add(v-> v.isFavorite());
+            if(key.equals("category") && value.equals("phrasal-verb")) vocabularyPredicateList.add(v-> v.isPhrasalVerb());
+        });
 
-        return vocabularyList;
+        Predicate<Vocabulary> intersectQuerys = vocabularyPredicateList.stream().reduce(v->true, Predicate::and);
+        return vocabularyList.stream().filter(intersectQuerys).collect(Collectors.toList());
     }
 
     @DeleteMapping("/{id}")
