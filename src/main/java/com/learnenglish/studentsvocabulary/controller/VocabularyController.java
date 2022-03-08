@@ -6,6 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/vocabularies")
@@ -23,9 +26,21 @@ public class VocabularyController {
         return vocabularyService.greet();
     }
 
+    @GetMapping("/test")
+    public String testing(@RequestParam Map<String,String> params){
+        return params.get("favorite") +" "+ params.get("category");
+    }
+
     @GetMapping
-    public List<Vocabulary> getAllVocabularies(){
-        return vocabularyService.all();
+    public List<Vocabulary> getAllVocabularies(@RequestParam Map<String,String> params){
+        List<Vocabulary> vocabularyList = vocabularyService.all();
+        if(params.containsKey("favorite")){
+            if(params.get("favorite").equals("true")){
+                vocabularyList = vocabularyList.stream().filter(vocabulary -> vocabulary.isFavorite()).collect(Collectors.toList());
+            }
+        }
+
+        return vocabularyList;
     }
 
     @DeleteMapping("/{id}")
