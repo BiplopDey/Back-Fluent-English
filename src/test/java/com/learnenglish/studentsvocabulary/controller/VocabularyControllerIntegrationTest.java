@@ -101,7 +101,6 @@ class VocabularyControllerIntegrationTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", notNullValue()))
                 .andExpect(jsonPath("$.name", is(RECORD_1.getName())));
-
     }
 
     @Test
