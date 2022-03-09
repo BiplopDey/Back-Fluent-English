@@ -1,9 +1,9 @@
-package com.learnenglish.studentsvocabulary.service;
+package com.learnenglish.studentsvocabulary.infrastructure.authentication;
 
 import com.learnenglish.studentsvocabulary.dtos.LoginUserResponseDto;
 import com.learnenglish.studentsvocabulary.model.User;
 
-public class LogInServiceImp implements LogInService{
+public class LogInServiceImp implements LogInService {
     private final TokenService tokenService;
 
     public LogInServiceImp(TokenService tokenService) {

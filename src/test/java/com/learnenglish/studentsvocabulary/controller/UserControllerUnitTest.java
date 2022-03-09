@@ -1,11 +1,12 @@
 package com.learnenglish.studentsvocabulary.controller;
 
-import com.learnenglish.studentsvocabulary.model.User;
+import com.learnenglish.studentsvocabulary.infrastructure.authentication.BearerTokenService;
+import com.learnenglish.studentsvocabulary.infrastructure.authentication.LogInService;
+import com.learnenglish.studentsvocabulary.infrastructure.authentication.LogInServiceImp;
+import com.learnenglish.studentsvocabulary.infrastructure.controller.UserController;
 import com.learnenglish.studentsvocabulary.service.*;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class UserControllerUnitTest {

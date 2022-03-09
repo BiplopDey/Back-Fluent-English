@@ -1,4 +1,4 @@
-package com.learnenglish.studentsvocabulary.controller;
+package com.learnenglish.studentsvocabulary.infrastructure.controller;
 
 import com.learnenglish.studentsvocabulary.model.Vocabulary;
 import com.learnenglish.studentsvocabulary.service.VocabularyService;
@@ -36,7 +36,6 @@ public class VocabularyController {
 
     @GetMapping
     public List<Vocabulary> getAllVocabularies(@RequestParam Map<String,String> params){
-        List<Vocabulary> vocabularyList = vocabularyService.all();
         List<Predicate<Vocabulary>> vocabularyPredicateList = new ArrayList<>();
         params.forEach((key,value)->{
             if(key.equals("favorite") && value.equals("true")) vocabularyPredicateList.add(v-> v.isFavorite());
@@ -44,7 +43,7 @@ public class VocabularyController {
         });
 
         Predicate<Vocabulary> intersectQuerys = vocabularyPredicateList.stream().reduce(v->true, Predicate::and);
-        return vocabularyList.stream().filter(intersectQuerys).collect(Collectors.toList());
+        return vocabularyService.all().stream().filter(intersectQuerys).collect(Collectors.toList());
     }
 
     @DeleteMapping("/{id}")

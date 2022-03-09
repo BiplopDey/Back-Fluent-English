@@ -1,6 +1,7 @@
 package com.learnenglish.studentsvocabulary.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.learnenglish.studentsvocabulary.infrastructure.controller.VocabularyController;
 import com.learnenglish.studentsvocabulary.model.Vocabulary;
 import com.learnenglish.studentsvocabulary.service.VocabularyService;
 import org.junit.jupiter.api.Test;

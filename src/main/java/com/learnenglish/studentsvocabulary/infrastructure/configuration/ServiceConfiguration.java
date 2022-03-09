@@ -1,6 +1,9 @@
-package com.learnenglish.studentsvocabulary.configuration;
+package com.learnenglish.studentsvocabulary.infrastructure.configuration;
 
-import antlr.Token;
+import com.learnenglish.studentsvocabulary.infrastructure.authentication.BearerTokenService;
+import com.learnenglish.studentsvocabulary.infrastructure.authentication.LogInService;
+import com.learnenglish.studentsvocabulary.infrastructure.authentication.LogInServiceImp;
+import com.learnenglish.studentsvocabulary.infrastructure.authentication.TokenService;
 import com.learnenglish.studentsvocabulary.repository.UserRepository;
 import com.learnenglish.studentsvocabulary.repository.VocabularyRepository;
 import com.learnenglish.studentsvocabulary.service.*;

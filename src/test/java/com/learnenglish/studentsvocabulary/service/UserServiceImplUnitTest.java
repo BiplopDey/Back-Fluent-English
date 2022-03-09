@@ -33,6 +33,7 @@ class UserServiceImplUnitTest {
 
         assertThat(user).isEqualTo(newUser);
         verify(userRepository).findById(1);
+
        // LOG.info(() -> user.getId()+Double.toString(Math.random()));
     }
 
