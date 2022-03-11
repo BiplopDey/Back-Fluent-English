@@ -43,7 +43,8 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteUser(@PathVariable int id, @RequestHeader(value="Authorization") String bearerToken){
+    public void deleteUser(@PathVariable int id,
+                           @RequestHeader(value="Authorization") String bearerToken){
         if(!logInService.isLogedIn(id, bearerToken))
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Missing Authorization header");
 

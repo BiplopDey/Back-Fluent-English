@@ -9,7 +9,7 @@ class VocabularyUnitTest {
     @Test
     void vocabularyWithSameIdAreEqual(){
         var vocab1 = new Vocabulary(1,"hello", "Salutation");
-        var vocab2 = new Vocabulary(1,"hello", "Salutation");
+        var vocab2 = new Vocabulary(1,"hello1", "Salutation1");
 
         assertEquals(vocab1, vocab2);
     }
