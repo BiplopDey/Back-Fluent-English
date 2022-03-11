@@ -10,11 +10,11 @@ import org.junit.jupiter.api.BeforeEach;
 import static org.mockito.Mockito.*;
 
 class UserControllerUnitTest {
-
     private UserController userController;
     private UserService userService;
     private VocabularyService vocabularyService;
     private LogInService logInService = new LogInServiceImp(new BearerTokenService());
+
     @BeforeEach
     void setUp(){
         userService = mock(UserService.class);
