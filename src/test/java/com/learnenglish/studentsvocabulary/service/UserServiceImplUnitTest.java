@@ -49,5 +49,4 @@ class UserServiceImplUnitTest {
         verify(userRepository).save(user);
     }
 
-
 }
