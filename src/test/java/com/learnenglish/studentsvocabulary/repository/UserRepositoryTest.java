@@ -78,6 +78,7 @@ class UserRepositoryTest {
         var sut = vocabularyRepository.findById(vocabulary.getId()).get().getStudents();
 
         assertThat(sut, empty());
+        assertTrue(false);
     }
 
 }
