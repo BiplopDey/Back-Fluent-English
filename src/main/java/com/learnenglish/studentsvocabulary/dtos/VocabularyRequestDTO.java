@@ -20,6 +20,7 @@ public class VocabularyRequestDTO {
     }
 
     Vocabulary toVocabulary(){
+        // checking
         var vocab = new Vocabulary();
         return vocab;
     }
