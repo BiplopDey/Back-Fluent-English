@@ -7,7 +7,8 @@ This a Spring Boot REST API web service that is used for the [Fluent English](ht
 
 ## Test
 ### Unit Test ###
-Unit test in java, using Junit5 and Mockito
+- Unit test in java, using Junit5 and Mockito
+- CI and unit test with Github Actions
 ### Integration of API ###
 Intregation test for API using Postman.
 Copy this [link](https://www.getpostman.com/collections/5a93b173f31be9ec0aee)  of the collection and run it on Postman.
