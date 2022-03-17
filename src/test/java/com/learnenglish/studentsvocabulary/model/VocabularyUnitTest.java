@@ -8,10 +8,20 @@ class VocabularyUnitTest {
 
     @Test
     void vocabularyWithSameIdAreEqual(){
-        var vocab1 = new Vocabulary(1,"hello", "Salutation");
-        var vocab2 = new Vocabulary(1,"hello1", "Salutation1");
+        var vocab1 = new Vocabulary("hello", "Salutation");
+        var vocab2 = new Vocabulary("hello1", "Salutation1");
+        vocab1.setId(1L);
+        vocab2.setId(1L);
 
         assertEquals(vocab1, vocab2);
+    }
+
+    @Test
+    void vocabularyWithUnimplementIDAreNotEqual(){
+        var vocab1 = new Vocabulary("hello", "Salutation");
+        var vocab2 = new Vocabulary("hello1", "Salutation1");
+
+        assertNotEquals(vocab1, vocab2);
     }
 
     @Test

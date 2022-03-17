@@ -1,7 +1,7 @@
 package com.learnenglish.studentsvocabulary.infrastructure.controller;
 
-import com.learnenglish.studentsvocabulary.dtos.CreateUserRequestDto;
-import com.learnenglish.studentsvocabulary.dtos.LoginUserResponseDto;
+import com.learnenglish.studentsvocabulary.dtos.CreateUserRequestDTO;
+import com.learnenglish.studentsvocabulary.dtos.LoginUserResponseDTO;
 import com.learnenglish.studentsvocabulary.model.User;
 import com.learnenglish.studentsvocabulary.model.Vocabulary;
 import com.learnenglish.studentsvocabulary.infrastructure.authentication.LogInService;
@@ -32,18 +32,18 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public LoginUserResponseDto registerUser(@RequestBody CreateUserRequestDto createUserRequest){
+    public LoginUserResponseDTO registerUser(@RequestBody CreateUserRequestDTO createUserRequest){
         User registeredUser = userService.create(createUserRequest.getUser());
         return logInService.logIn(registeredUser);
     }
 
     @GetMapping("/{id}")
-    public User getUser(@PathVariable int id){
+    public User getUser(@PathVariable Long id){
         return userService.find(id);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteUser(@PathVariable int id,
+    public void deleteUser(@PathVariable Long id,
                            @RequestHeader(value="Authorization") String bearerToken){
         if(!logInService.isLogedIn(id, bearerToken))
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Missing Authorization header");
@@ -52,7 +52,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}/vocabularies")
-    public List<Vocabulary> vocabularies(@PathVariable int id,
+    public List<Vocabulary> vocabularies(@PathVariable Long id,
                                         @RequestHeader(value="Authorization") String bearerToken,
                                         @RequestParam Map<String,String> params){
         if(!logInService.isLogedIn(id, bearerToken))
@@ -69,7 +69,7 @@ public class UserController {
     }
 
     @PostMapping("/{id}/vocabularies")
-    public Vocabulary addVocabulary(@PathVariable int id,
+    public Vocabulary addVocabulary(@PathVariable Long id,
                                     @RequestBody Vocabulary vocabulary,
                                     @RequestHeader(value="Authorization") String bearerToken){
         if(!logInService.isLogedIn(id, bearerToken))
@@ -81,20 +81,19 @@ public class UserController {
     }
 
     @PutMapping("/{userId}/vocabularies/{vocabId}")
-    public Vocabulary updateVocabulary(@PathVariable("userId") int userId,
-                                       @PathVariable("vocabId") int vocabId,
+    public Vocabulary updateVocabulary(@PathVariable("userId") Long userId,
+                                       @PathVariable("vocabId") Long vocabId,
                                        @RequestBody Vocabulary vocabulary,
                                        @RequestHeader(value="Authorization") String bearerToken){
         if(!logInService.isLogedIn(userId, bearerToken))
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Missing Authorization header");
 
-        var updatedVocab = vocabularyService.update(vocabulary, vocabId);
-        return updatedVocab;
+        return vocabularyService.update(vocabulary, vocabId);
     }
 
     @DeleteMapping("/{userId}/vocabularies/{vocabId}")
-    public void detach(@PathVariable("userId") int userId,
-                       @PathVariable("vocabId") int vocabId,
+    public void detach(@PathVariable("userId") Long userId,
+                       @PathVariable("vocabId") Long vocabId,
                        @RequestHeader(value="Authorization") String bearerToken){
         if(!logInService.isLogedIn(userId, bearerToken))
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Missing Authorization header");

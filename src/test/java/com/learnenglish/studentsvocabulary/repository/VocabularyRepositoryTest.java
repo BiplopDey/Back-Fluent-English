@@ -1,6 +1,7 @@
 package com.learnenglish.studentsvocabulary.repository;
 
 import com.learnenglish.studentsvocabulary.model.Vocabulary;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,13 +20,20 @@ class VocabularyRepositoryTest {
     @Autowired
     private VocabularyRepository vocabularyRepository;
 
+    List<Vocabulary> vocabList;
     @BeforeEach
     void setUp(){
+        vocabList =
         vocabularyRepository.saveAll(List.of(
-                new Vocabulary(1,"d","s"),
-                new Vocabulary(2,"d","s"),
-                new Vocabulary(3,"d","s")
+                new Vocabulary("d","s"),
+                new Vocabulary("d","s"),
+                new Vocabulary("d","s")
         ));
+    }
+
+    @AfterEach
+    void cleanDb(){
+        vocabularyRepository.deleteAll();
     }
 
     @Test
@@ -37,7 +45,7 @@ class VocabularyRepositoryTest {
 
     @Test
     void itCanDeleteAVocabulary(){
-        vocabularyRepository.deleteById(1);
+        vocabularyRepository.deleteById(vocabList.get(0).getId());
 
         var sut = vocabularyRepository.findAll();
 

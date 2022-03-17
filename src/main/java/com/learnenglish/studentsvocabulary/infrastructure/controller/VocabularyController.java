@@ -1,5 +1,6 @@
 package com.learnenglish.studentsvocabulary.infrastructure.controller;
 
+import com.learnenglish.studentsvocabulary.dtos.VocabularyRequestDTO;
 import com.learnenglish.studentsvocabulary.model.Vocabulary;
 import com.learnenglish.studentsvocabulary.service.VocabularyService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,11 @@ public class VocabularyController {
     @PostMapping
     public Vocabulary add(@RequestBody Vocabulary vocabulary){
         return vocabularyService.create(vocabulary);
+    }
+
+    @PostMapping("dto")
+    public VocabularyRequestDTO dto(@RequestBody VocabularyRequestDTO vocabularyRequestDTO){
+        return vocabularyRequestDTO;
     }
 
     @GetMapping("/greeting")
@@ -47,17 +53,17 @@ public class VocabularyController {
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable int id){
+    public void delete(@PathVariable Long id){
         vocabularyService.delete(id);
     }
 
     @GetMapping("/{id}")
-    public Vocabulary one(@PathVariable int id){
+    public Vocabulary one(@PathVariable Long id){
         return vocabularyService.find(id);
     }
 
     @PutMapping("/{id}")
-    public Vocabulary update(@RequestBody Vocabulary vocabulary, @PathVariable int id){
+    public Vocabulary update(@RequestBody Vocabulary vocabulary, @PathVariable Long id){
         return vocabularyService.update(vocabulary, id);
     }
 }

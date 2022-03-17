@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -13,7 +14,7 @@ import java.util.Set;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
     private String name;
     private String email;
     @ManyToMany(cascade = {CascadeType.ALL})
@@ -22,9 +23,9 @@ public class User {
             inverseJoinColumns = {@JoinColumn(name = "VOCABULARY_ID")})
     Set<Vocabulary> vocabularies = new HashSet<>();
 
-    public User(int id, String name) {
-        this.id = id;
+    public User(String name, String email) {
         this.name = name;
+        this.email = email;
     }
 
     public void addVocabulary(Vocabulary vocabulary){
@@ -43,6 +44,12 @@ public class User {
         if (!(o instanceof User))
             return false;
         var other = (User) o;
-        return id == other.getId();
+        return id != null &&
+                Objects.equals(id, other.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId());
     }
 }

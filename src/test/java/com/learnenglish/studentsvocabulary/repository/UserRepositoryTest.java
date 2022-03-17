@@ -2,6 +2,7 @@ package com.learnenglish.studentsvocabulary.repository;
 
 import com.learnenglish.studentsvocabulary.model.User;
 import com.learnenglish.studentsvocabulary.model.Vocabulary;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,62 +14,69 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 class UserRepositoryTest {
-
     @Autowired
     private UserRepository userRepository;
 
     @Autowired
     private VocabularyRepository vocabularyRepository;
 
-    User user;
-    @BeforeEach
-    void setUp(){
-        user = new User(1, "foo");
-        userRepository.save(user);
+    @AfterEach
+    void cleanDb(){
+        userRepository.deleteAll();
+        vocabularyRepository.deleteAll();
     }
 
     @Test
     void itCanSaveUser(){
+        User user = new User("bazz", "foo");
         var sut = userRepository.save(user);
 
-        assertThat(user, samePropertyValuesAs(sut));
+        assertEquals(user.getName(),sut.getName());
+        assertEquals(user.getEmail(),sut.getEmail());
     }
 
     @Test
     void itCanFindAnUser(){
-        var sut = userRepository.findById(1).get();
+        User user = userRepository.save(new User("bazz", "foo"));
 
-        assertThat(user, samePropertyValuesAs(sut));
+        var sut = userRepository.findById(user.getId()).get();
+
+        assertEquals(user.getName(),sut.getName());
+        assertEquals(user.getEmail(),sut.getEmail());
     }
 
     @Test
     void itCantFindAnUserAndGiveOptionalWithEmptyUser(){
-        var sut = userRepository.findById(2);
+        User user = userRepository.save(new User("bazz", "foo"));
+
+        var sut = userRepository.findById(user.getId()+1);
 
         assertFalse(sut.isPresent());
     }
 
     @Test
     void itCanAttachAnVocabulary(){
-        var vocabulary = new Vocabulary(1,"d","p");
+        User user = userRepository.save(new User("bazz", "foo"));
+        var vocabulary = vocabularyRepository.save(new Vocabulary("d","p"));
         user.addVocabulary(vocabulary);
         userRepository.save(user);
 
-        var sut = vocabularyRepository.findById(1).get().getStudents();
+        var sut = vocabularyRepository.findById(vocabulary.getId()).get().getStudents();
 
         assertThat(sut, hasItem(user));
     }
 
     @Test
     void itCanDetachAnVocabularyButNotRemoveIt(){
-        var vocabulary = vocabularyRepository.save(new Vocabulary(1,"d","p"));
+        User user = userRepository.save(new User("bazz", "foo"));
+        var vocabulary = vocabularyRepository.save(new Vocabulary("d","p"));
         user.addVocabulary(vocabulary);
         user = userRepository.save(user);
-
         user.removeVocabulary(vocabulary);
         userRepository.save(user);
 
-        var sut = vocabularyRepository.findById(1).get().getStudents();
+        var sut = vocabularyRepository.findById(vocabulary.getId()).get().getStudents();
+
         assertThat(sut, empty());
     }
 

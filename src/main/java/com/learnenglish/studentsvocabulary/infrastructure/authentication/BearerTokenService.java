@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class BearerTokenService implements TokenService{
-    private static Map<String,User> tokens = new HashMap<>();
+    private static Map<String, User> tokens = new HashMap<>();
 
     @Override
     public String generate(User user) {
