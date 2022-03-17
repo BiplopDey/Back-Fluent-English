@@ -8,14 +8,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;
-import org.mockito.stubbing.OngoingStubbing;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.ArrayList;
@@ -32,7 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(VocabularyController.class)
-class VocabularyControllerIntegrationTest {
+class VocabularyControllerUnitTest {
     @Autowired
     private MockMvc mockMvc;
 
@@ -47,9 +45,12 @@ class VocabularyControllerIntegrationTest {
 
     @BeforeEach
     void setUp(){
-        RECORD_1 = new Vocabulary(1, "Rayven Yor","Cebu Philippines");
-        RECORD_2 = new Vocabulary(2, "David Landup", "New York USA");
-        RECORD_3 = new Vocabulary(3, "Jane Doe", "New York USA");
+        RECORD_1 = new Vocabulary("Rayven Yor","Cebu Philippines");
+        RECORD_2 = new Vocabulary("David Landup", "New York USA");
+        RECORD_3 = new Vocabulary( "Jane Doe", "New York USA");
+        RECORD_1.setId(1L);
+        RECORD_1.setId(2L);
+        RECORD_1.setId(3L);
         records = new ArrayList<>(Arrays.asList(RECORD_1, RECORD_2, RECORD_3));
     }
 
@@ -75,7 +76,7 @@ class VocabularyControllerIntegrationTest {
 
     @Test
     void getOne() throws Exception{
-        final int id = RECORD_1.getId();
+        Long id = RECORD_1.getId();
         when(service.find(id)).thenReturn(RECORD_1);
 
         mockMvc.perform(get("/vocabularies/"+id))
@@ -98,7 +99,7 @@ class VocabularyControllerIntegrationTest {
 
     @Test
     public void updateOne() throws Exception{
-        final int id = RECORD_1.getId();
+        Long id = RECORD_1.getId();
         when(service.update(RECORD_1, id)).thenReturn(RECORD_1);
 
         mockMvc.perform(put("/vocabularies/"+id)
@@ -110,7 +111,7 @@ class VocabularyControllerIntegrationTest {
 
     @Test
     public void deleteVocabularyById() throws Exception {
-        final int id = RECORD_1.getId();
+        Long id = RECORD_1.getId();
 
         mockMvc.perform(delete("/vocabularies/"+id))
                 .andExpect(status().isOk());

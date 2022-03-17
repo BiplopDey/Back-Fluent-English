@@ -19,7 +19,8 @@ class VocabularyServiceImplUnitTest {
     void setUp(){
         repository = mock(VocabularyRepository.class);
         service = new VocabularyServiceImpl(repository);
-        vocab = new Vocabulary(1,"Hello", "Greeting");
+        vocab = new Vocabulary("Hello", "Greeting");
+        vocab.setId(1L);
     }
 
     @Test
@@ -35,44 +36,44 @@ class VocabularyServiceImplUnitTest {
 
     @Test
     void findVocabulary(){
-        when(repository.findById(1)).thenReturn(Optional.of(vocab));
+        when(repository.findById(vocab.getId())).thenReturn(Optional.of(vocab));
 
-        var newVocab = service.find(1);
+        var newVocab = service.find(vocab.getId());
 
         assertEquals(newVocab,vocab);
         assertEquals(newVocab.getName(),vocab.getName());
-        verify(repository).findById(1);
+        verify(repository).findById(vocab.getId());
     }
 
     @Test
     void findVocabularyThrowsException(){
-        when(repository.findById(1)).thenReturn(Optional.empty());
+        when(repository.findById(vocab.getId())).thenReturn(Optional.empty());
 
-        assertThrows(RuntimeException.class, ()->service.find(1));
-        verify(repository).findById(1);
+        assertThrows(RuntimeException.class, ()->service.find(vocab.getId()));
+        verify(repository).findById(vocab.getId());
     }
 
     @Test
     void canUpdate(){
-        when(repository.findById(1)).thenReturn(Optional.of(vocab));
-        var updateVocab = new Vocabulary(1,"hola", "Saludo");
+        when(repository.findById(vocab.getId())).thenReturn(Optional.of(vocab));
+        var updateVocab = new Vocabulary("hola", "Saludo");
         when(repository.save(any(Vocabulary.class))).thenReturn(updateVocab);
 
-        var newVocab = service.update(updateVocab,1);
+        var newVocab = service.update(updateVocab,vocab.getId());
 
         assertEquals(newVocab,updateVocab);
         assertEquals(newVocab.getName(),updateVocab.getName());
-        verify(repository).findById(1);
+        verify(repository).findById(vocab.getId());
         verify(repository).save(updateVocab);
     }
 
     @Test
     void updateFail(){
-        when(repository.findById(1)).thenReturn(Optional.empty());
-        var updateVocab = new Vocabulary(1,"hola", "Saludo");
+        when(repository.findById(vocab.getId())).thenReturn(Optional.empty());
+        var updateVocab = new Vocabulary("hola", "Saludo");
         when(repository.save(any(Vocabulary.class))).thenReturn(updateVocab);
 
-        assertThrows(RuntimeException.class, ()->service.update(updateVocab,1));
+        assertThrows(RuntimeException.class, ()->service.update(updateVocab, vocab.getId()));
         verify(repository, times(0)).save(any(Vocabulary.class));
     }
 }

@@ -5,6 +5,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -14,7 +15,7 @@ import java.util.Set;
 public class Vocabulary {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
     private String name;
     private String definition;
     private boolean favorite = false;
@@ -23,8 +24,7 @@ public class Vocabulary {
     @JsonIgnore
     private Set<User> students = new HashSet<>();
 
-    public Vocabulary(int id, String name, String definition) {
-        this.id = id;
+    public Vocabulary(String name, String definition) {
         this.name = name;
         this.definition = definition;
     }
@@ -35,6 +35,12 @@ public class Vocabulary {
         if (!(o instanceof Vocabulary))
             return false;
         var other = (Vocabulary) o;
-        return id == other.getId();
+        return id != null &&
+                Objects.equals(id, other.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId());
     }
 }

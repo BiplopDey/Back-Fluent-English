@@ -16,24 +16,24 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User find(int id) {
+    public User find(Long id) {
         return userRepository.findById(id).orElseThrow(()->new RuntimeException("User not found"));
     }
 
     @Override
-    public void delete(int id) {
+    public void delete(Long id) {
         userRepository.deleteById(id);
     }
 
     @Override
-    public void addVocabulary(int id, Vocabulary vocabulary) {
+    public void addVocabulary(Long id, Vocabulary vocabulary) {
         var user = find(id);
         user.addVocabulary(vocabulary);
         userRepository.save(user);
     }
 
     @Override
-    public void detachVocabulary(int id, Vocabulary vocabulary) {
+    public void detachVocabulary(Long id, Vocabulary vocabulary) {
         var user = find(id);
         user.removeVocabulary(vocabulary);
         userRepository.save(user);
@@ -45,7 +45,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Set<Vocabulary> getVocabularies(int id) {
+    public Set<Vocabulary> getVocabularies(Long id) {
         return find(id).getVocabularies();
     }
 }

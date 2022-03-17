@@ -26,18 +26,18 @@ public class VocabularyServiceImpl implements VocabularyService{
     }
 
     @Override
-    public void delete(int id) {
+    public void delete(Long id) {
         vocabularyRepository.deleteById(id);
     }
 
     @Override
-    public Vocabulary find(int id) {
+    public Vocabulary find(Long id) {
         return vocabularyRepository.findById(id)
                 .orElseThrow(()->new RuntimeException("Vocabulary not found"));
     }
 
     @Override
-    public Vocabulary update(Vocabulary vocabulary, int id) {
+    public Vocabulary update(Vocabulary vocabulary, Long id) {
         var vocabToUpdate = find(id);
 
         vocabulary.setId(vocabToUpdate.getId());

@@ -17,31 +17,33 @@ class UserServiceImplUnitTest {
 
     private UserRepository userRepository;
     private UserServiceImpl userService;
+    User user;
 
     @BeforeEach
     public void setup() {
         userRepository = mock(UserRepository.class);
         userService = new UserServiceImpl(userRepository);
+        user = new User("foo","foo");
+        user.setId(1L);
     }
 
     @Test
     void getUserById() {
-        User user = new User(1,"foo");
-        when(userRepository.findById(1)).thenReturn(Optional.of(user));
+        when(userRepository.findById(user.getId())).thenReturn(Optional.of(user));
 
-        var newUser = userService.find(1);
+        var newUser = userService.find(user.getId());
 
         assertThat(user).isEqualTo(newUser);
-        verify(userRepository).findById(1);
+        verify(userRepository).findById(user.getId());
 
        // LOG.info(() -> user.getId()+Double.toString(Math.random()));
     }
 
     @Test
     void canAddVocabularies(){
-        var vocabulary = new Vocabulary(1,"Hola", "Saludo");
-        var user = spy(new User(1,"Foo"));
-        when(userRepository.findById(1)).thenReturn(Optional.of(user));
+        var vocabulary = new Vocabulary("Hola", "Saludo");
+        var user = spy(new User("Foo","Foo"));
+        when(userRepository.findById(user.getId())).thenReturn(Optional.of(user));
 
         userService.addVocabulary(user.getId(), vocabulary);
 

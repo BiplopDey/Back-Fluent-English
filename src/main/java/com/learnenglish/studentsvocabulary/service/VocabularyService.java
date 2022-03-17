@@ -8,9 +8,9 @@ import java.util.Optional;
 public interface VocabularyService {
     Vocabulary create(Vocabulary vocabulary);
     List<Vocabulary> all();
-    void delete(int id);
-    Vocabulary find(int id);
-    Vocabulary update(Vocabulary vocabulary, int id);
+    void delete(Long id);
+    Vocabulary find(Long id);
+    Vocabulary update(Vocabulary vocabulary, Long id);
 
     public String greet();
 }
