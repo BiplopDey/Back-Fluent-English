@@ -11,7 +11,9 @@ public class CreateUserRequestDTO {
     private final String email;
 
     @JsonCreator
-    public CreateUserRequestDTO(@JsonProperty("name") String name, @JsonProperty("email") String email) {
+    public CreateUserRequestDTO(
+        @JsonProperty("name") String name, 
+        @JsonProperty("email") String email) {
         this.name = name;
         this.email = email;
     }
